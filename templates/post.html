@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Page</title>
+</head>
+<body>
+    {% block content %}
+    <h1> All Post</h1>
+    <div class="post-container">
+    <ul>
+    {% for post in object_list %}
+        <div class="post-entry">
+            <li>
+            <h2>{{ post.title }}</h2>
+            <p>Author: {{ post.author }}</p>
+            <p>Published on: {{ post.created_on }}</p>
+            {{ post.body | slice:":50" }}...<a href="{% url 'post_details' pk=post.pk %}">read more</a>
+            </li>
+        </div>  
+    {% endfor %}
+    </ul>
+    </div>
+    {% endblock %}
+</body>
+</html>

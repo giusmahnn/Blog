@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    {% block content %}
+    <div class="container">
+        <div class="post-header">
+            <h1>{{ post.title }}</h1>
+            <p>Author: {{ post.author }}</p>
+            <p>Published on: {{ post.created_on }}</p>
+            <p><a href="{% url 'post_edit' post.pk %}">Edit Post</a> | <a href="{% url 'post_delete' post.pk %}">Delete Post</a></p>
+        </div>
+        <div class="post-body">
+            {{ post.body | safe }}
+        </div>
+        <div class="back-button">
+            <a href="{% url 'post' %}">Back</a>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

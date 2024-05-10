@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    <div class="home-page">
+        <h1>Welcome to My Blog</h1>
+    </div>
+    <p>This is the homepage of my blog. Here you'll find the latest posts.<a href="{% url 'post' %}">Go to posts</a></p>
+    <h2><a href="{% url 'about' %}">About</a></h2>
+    {% endblock %}
+</body>
+</html>
