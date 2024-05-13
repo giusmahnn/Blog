@@ -2,6 +2,8 @@ from django.test import TestCase
 from .models import Post
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+
 
 class BlogTest(TestCase):
     
@@ -73,4 +75,38 @@ class BlogTest(TestCase):
         url = reverse('post_delete', args=[post.pk])
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)  # Adjust status code as per your implementation
+
+class UserTestCase(TestCase):
+    def test_signup(self):
+        # Ensure that the signup page loads successfully
+        response = self.client.get(reverse('signup'))
+        self.assertEqual(response.status_code, 200)
         
+        # Create a new user
+        response = self.client.post(reverse('signup'), {
+            'username': 'testuser',
+            'email': 'test@example.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword'
+        })
+        self.assertEqual(response.status_code, 302)  # 302 is the HTTP status code for redirect
+         # Check if the user was created successfully
+        self.assertTrue(User.objects.filter(username='testuser').exists())
+        
+
+    def test_login(self):  # failed test
+        # Ensure that the login page loads successfully
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
+        
+        # Log in with the created user
+        response1 = self.client.post(reverse('login'), {
+            'username': 'testuser',
+            'password': 'testpassword'
+        })
+        
+        self.assertEqual(response1.status_code, 302)
+        self.assertRedirects(response1, reverse('home'))# Redirect after successful login
+        
+        # Check if the user is authenticated
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
